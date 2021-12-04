@@ -23,6 +23,7 @@
 
     <modules>
         <module>products</module>
+        <module>discovery</module>
     </modules>
 
 </project>
