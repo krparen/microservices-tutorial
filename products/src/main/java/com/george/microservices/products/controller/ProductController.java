@@ -1,5 +1,6 @@
 package com.george.microservices.products.controller;
 
+import com.george.microservices.products.model.CreateProductRestModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +16,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public static String create() {
-        return "Hello from post product method!";
+    public static String create(@RequestBody CreateProductRestModel request) {
+        return "Hello from post product method! product title: " + request.getTitle();
     }
 
     @PutMapping
