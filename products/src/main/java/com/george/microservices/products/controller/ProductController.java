@@ -1,13 +1,21 @@
 package com.george.microservices.products.controller;
 
+import com.george.microservices.products.command.CreateProductCommand;
 import com.george.microservices.products.model.CreateProductRestModel;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/product")
 @Slf4j
+@RequiredArgsConstructor
 public class ProductController {
+
+    private final CommandGateway commandGateway;
 
     @GetMapping
     public static String get() {
@@ -16,17 +24,27 @@ public class ProductController {
     }
 
     @PostMapping
-    public static String create(@RequestBody CreateProductRestModel request) {
-        return "Hello from post product method! product title: " + request.getTitle();
+    public String create(@RequestBody CreateProductRestModel request) {
+
+        CreateProductCommand command = CreateProductCommand.builder()
+                .title(request.getTitle())
+                .price(request.getPrice())
+                .quantity(request.getQuantity())
+                .productId(UUID.randomUUID().toString())
+                .build();
+
+        String response = commandGateway.sendAndWait(command);
+
+        return response;
     }
 
     @PutMapping
-    public static String update() {
+    public String update() {
         return "Hello from put product method!";
     }
 
     @DeleteMapping
-    public static String delete() {
+    public String delete() {
         return "Hello from delete product method!";
     }
 }
