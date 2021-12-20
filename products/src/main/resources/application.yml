@@ -7,5 +7,16 @@ eureka:
 spring:
   application:
     name: products-service
+  datasource:
+    url: jdbc:h2:file:~/products;AUTO_SERVER=true
+    username: h2
+    password: h2
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
 server:
   port: 0 # means random port on startup
