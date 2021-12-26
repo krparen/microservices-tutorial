@@ -1,7 +1,7 @@
-package com.george.microservices.products.controller;
+package com.george.microservices.products.command.rest;
 
 import com.george.microservices.products.command.CreateProductCommand;
-import com.george.microservices.products.model.CreateProductRestModel;
+import com.george.microservices.products.command.CreateProductRestModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @RequestMapping("/product")
 @Slf4j
 @RequiredArgsConstructor
-public class ProductController {
+public class ProductsCommandController {
 
     private final CommandGateway commandGateway;
 

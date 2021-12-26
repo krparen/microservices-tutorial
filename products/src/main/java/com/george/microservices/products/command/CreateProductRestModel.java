@@ -1,4 +1,4 @@
-package com.george.microservices.products.model;
+package com.george.microservices.products.command;
 
 import lombok.Data;
 
