@@ -20,3 +20,6 @@ spring:
       enabled: true
 server:
   port: 0 # means random port on startup
+  error:
+    include-message: always
+    include-binding-errors: always
