@@ -1,18 +1,25 @@
 package com.george.microservices.products.command.interceptors;
 
 import com.george.microservices.products.command.CreateProductCommand;
+import com.george.microservices.products.core.data.ProductLookupEntity;
+import com.george.microservices.products.core.data.ProductLookupRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandMessage;
 import org.axonframework.messaging.MessageDispatchInterceptor;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.BiFunction;
 
 @Component
+@RequiredArgsConstructor
 @Slf4j
 public class CreateProductCommandInterceptor implements MessageDispatchInterceptor<CommandMessage<?>> {
+
+    private static final String ERROR_MESSAGE_TEMPLATE = "Entity with productId = %s or title = %s already exists";
+
+    private final ProductLookupRepository productLookupRepository;
 
     @Override
     public BiFunction<Integer, CommandMessage<?>, CommandMessage<?>> handle(List<? extends CommandMessage<?>> list) {
@@ -25,14 +32,18 @@ public class CreateProductCommandInterceptor implements MessageDispatchIntercept
 
                 CreateProductCommand createProductCommand = (CreateProductCommand) command.getPayload();
 
-                // Validate CreateProductCommand
-                if (createProductCommand.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
-                    throw new IllegalArgumentException("Price cannot be less or equal to zero");
-                }
+                ProductLookupEntity productLookupEntity = productLookupRepository.findByProductIdOrTitle(
+                        createProductCommand.getProductId(),
+                        createProductCommand.getTitle());
 
-                if (createProductCommand.getTitle() == null
-                        || createProductCommand.getTitle().isBlank()) {
-                    throw new IllegalArgumentException("Price cannot be less or equal to zero");
+                if (productLookupEntity != null) {
+                    String errorMessage = String.format(
+                            ERROR_MESSAGE_TEMPLATE,
+                            productLookupEntity.getProductId(),
+                            productLookupEntity.getTitle()
+                    );
+
+                    throw new IllegalStateException(errorMessage);
                 }
             }
 
