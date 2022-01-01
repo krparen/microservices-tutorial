@@ -31,14 +31,16 @@ public class ProductsCommandController {
                 .productId(UUID.randomUUID().toString())
                 .build();
 
-        String response = null;
-        try {
-            response = commandGateway.sendAndWait(command);
-        } catch (Exception e) {
-            response = e.getLocalizedMessage();
-        }
+        return commandGateway.sendAndWait(command);
 
-        return response;
+//        String response = null;
+//        try {
+//            response = commandGateway.sendAndWait(command);
+//        } catch (Exception e) {
+//            response = e.getLocalizedMessage();
+//        }
+//
+//        return response;
     }
 //
 //    @PutMapping
