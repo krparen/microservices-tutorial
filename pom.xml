@@ -25,6 +25,7 @@
         <module>products</module>
         <module>discovery</module>
         <module>apigateway</module>
+        <module>orders</module>
     </modules>
 
 </project>
