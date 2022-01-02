@@ -1,7 +1,6 @@
 package com.george.microservices.orders.command.rest;
 
 import com.george.microservices.orders.command.CreateOrderCommand;
-import com.george.microservices.orders.command.CreateOrderRestModel;
 import com.george.microservices.orders.command.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;

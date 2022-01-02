@@ -1,4 +1,4 @@
-package com.george.microservices.orders.command;
+package com.george.microservices.orders.command.rest;
 
 import lombok.Data;
 
