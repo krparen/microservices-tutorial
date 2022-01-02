@@ -1,7 +1,6 @@
 package com.george.microservices.products.command.rest;
 
 import com.george.microservices.products.command.CreateProductCommand;
-import com.george.microservices.products.command.CreateProductRestModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
