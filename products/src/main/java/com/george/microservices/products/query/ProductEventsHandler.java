@@ -25,8 +25,8 @@ public class ProductEventsHandler {
     }
 
     @ExceptionHandler(resultType = Exception.class)
-    public void handle(Exception ex) {
-        log.error(ex.getMessage());
+    public void handle(Exception ex) throws Exception {
+        throw ex;
     }
 
     @EventHandler
