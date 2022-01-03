@@ -1,0 +1,25 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${instanceId:${random.value}} # generate random instance id for each instance
+spring:
+  application:
+    name: orders-service
+  datasource:
+    url: jdbc:h2:file:~/orders;AUTO_SERVER=true
+    username: h2
+    password: h2
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
+server:
+  port: 0 # means random port on startup
+  error:
+    include-message: always
+    include-binding-errors: always

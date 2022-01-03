@@ -1,13 +1,15 @@
 package com.george.microservices.orders.core.data;
 
 import com.george.microservices.orders.command.OrderStatus;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Table(name = "orders")
+@Data
 public class OrderEntity implements Serializable {
-
 
     @Id
     @Column(unique = true)
