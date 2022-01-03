@@ -12,6 +12,10 @@ public class ProductsServiceEventsErrorHandler implements ListenerInvocationErro
             EventMessage<?> eventMessage,
             EventMessageHandler eventMessageHandler) throws Exception {
 
+        /*
+        Бросаем тут исключение, чтобы оно пришло в Rest Controller Advice и там обработалось.
+        Дефолтное поведение - залогировать эксепшон и двигаться дальше.
+         */
         throw e;
     }
 }
