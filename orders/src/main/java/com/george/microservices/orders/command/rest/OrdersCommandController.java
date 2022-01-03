@@ -19,7 +19,7 @@ public class OrdersCommandController {
     private final CommandGateway commandGateway;
 
     @PostMapping
-    public void createOrder(@RequestBody CreateOrderRestModel request) {
+    public String createOrder(@RequestBody CreateOrderRestModel request) {
 
         CreateOrderCommand createOrderCommand = CreateOrderCommand.builder()
                 .orderId(UUID.randomUUID().toString())
@@ -30,6 +30,6 @@ public class OrdersCommandController {
                 .orderStatus(OrderStatus.CREATED)
                 .build();
 
-        commandGateway.sendAndWait(createOrderCommand);
+        return commandGateway.sendAndWait(createOrderCommand);
     }
 }

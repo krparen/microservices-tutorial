@@ -1,14 +1,16 @@
 package com.george.microservices.orders.command;
 
 import com.george.microservices.orders.core.events.OrderCreatedEvent;
-import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
+import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
-@Data
+@Aggregate
+@NoArgsConstructor
 public class OrderAggregate {
 
     @AggregateIdentifier
