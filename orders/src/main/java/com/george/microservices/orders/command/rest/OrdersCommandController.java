@@ -3,6 +3,7 @@ package com.george.microservices.orders.command.rest;
 import com.george.microservices.orders.command.CreateOrderCommand;
 import com.george.microservices.orders.command.OrderStatus;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/orders")
 @RequiredArgsConstructor
+@Slf4j
 public class OrdersCommandController {
 
     private final CommandGateway commandGateway;
@@ -29,6 +31,8 @@ public class OrdersCommandController {
                 .addressId(request.getAddressId())
                 .orderStatus(OrderStatus.CREATED)
                 .build();
+
+        log.info("CreateOrderCommand created; command: {}", createOrderCommand);
 
         return commandGateway.sendAndWait(createOrderCommand);
     }

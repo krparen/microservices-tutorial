@@ -2,6 +2,7 @@ package com.george.microservices.orders.command;
 
 import com.george.microservices.orders.core.events.OrderCreatedEvent;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -11,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 
 @Aggregate
 @NoArgsConstructor
+@Slf4j
 public class OrderAggregate {
 
     @AggregateIdentifier
@@ -27,6 +29,7 @@ public class OrderAggregate {
         BeanUtils.copyProperties(createOrderCommand, orderCreatedEvent);
 
         AggregateLifecycle.apply(orderCreatedEvent);
+        log.info("CreateOrderCommand received. OrderCreateEvent published. command: {}, event: {}", createOrderCommand, orderCreatedEvent);
     }
 
     @EventSourcingHandler
@@ -37,6 +40,8 @@ public class OrderAggregate {
         this.quantity = orderCreatedEvent.getQuantity();
         this.addressId = orderCreatedEvent.getAddressId();
         this.orderStatus = orderCreatedEvent.getOrderStatus();
+
+        log.info("OrderCreatedEvent applied to aggregate; event: {}", orderCreatedEvent);
     }
 
 

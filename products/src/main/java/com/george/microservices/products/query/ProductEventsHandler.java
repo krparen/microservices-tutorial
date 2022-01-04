@@ -1,5 +1,6 @@
 package com.george.microservices.products.query;
 
+import com.george.microservices.core.events.ProductReservedEvent;
 import com.george.microservices.products.core.data.ProductEntity;
 import com.george.microservices.products.core.data.ProductsRepository;
 import com.george.microservices.products.core.events.ProductCreatedEvent;
@@ -35,5 +36,17 @@ public class ProductEventsHandler {
         BeanUtils.copyProperties(productCreatedEvent, productEntity);
 
         productsRepository.save(productEntity);
+    }
+
+    @EventHandler
+    public void on(ProductReservedEvent productReservedEvent) {
+        ProductEntity productEntity = productsRepository.findByProductId(productReservedEvent.getProductId());
+        Integer newQuantity = productEntity.getQuantity() - productReservedEvent.getQuantity();
+        productEntity.setQuantity(newQuantity);
+
+        productsRepository.save(productEntity);
+
+        log.info("ProductReservedEvent handler called on query side; orderId: {}, productId: {}",
+                productReservedEvent.getOrderId(), productReservedEvent.getProductId());
     }
 }

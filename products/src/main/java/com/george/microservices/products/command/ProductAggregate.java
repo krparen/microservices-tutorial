@@ -4,6 +4,7 @@ import com.george.microservices.core.commands.ReserveProductCommand;
 import com.george.microservices.core.events.ProductReservedEvent;
 import com.george.microservices.products.core.events.ProductCreatedEvent;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -14,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import java.math.BigDecimal;
 
 @Aggregate
+@Slf4j
 @NoArgsConstructor
 public class ProductAggregate {
 
@@ -44,6 +46,8 @@ public class ProductAggregate {
     @CommandHandler
     public ProductAggregate(ReserveProductCommand reserveProductCommand) {
 
+        log.info("ReserveProductCommand received: {}", reserveProductCommand);
+
         if (quantity < reserveProductCommand.getQuantity()) {
             throw new IllegalArgumentException("Insufficient number of items in stock");
         }
@@ -56,6 +60,8 @@ public class ProductAggregate {
                 .build();
 
         AggregateLifecycle.apply(productReservedEvent);
+
+        log.info("ProductReservedEvent published: {}", productReservedEvent);
     }
 
     @EventSourcingHandler
@@ -69,6 +75,7 @@ public class ProductAggregate {
 
     @EventSourcingHandler
     public void on(ProductReservedEvent productReservedEvent) {
+        log.info("ProductAggregate: on ProductReserverdEvent; event: {}", productReservedEvent);
         this.quantity -= productReservedEvent.getQuantity();
     }
 }
