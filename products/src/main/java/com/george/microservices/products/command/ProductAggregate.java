@@ -59,6 +59,7 @@ public class ProductAggregate {
                 .userId(reserveProductCommand.getUserId())
                 .build();
 
+        log.info("sending ProductReservedEvent...");
         AggregateLifecycle.apply(productReservedEvent);
 
         log.info("ProductReservedEvent published: {}", productReservedEvent);
